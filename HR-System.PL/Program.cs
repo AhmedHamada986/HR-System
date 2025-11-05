@@ -1,3 +1,8 @@
+using HR_System.BLL.Interfaces;
+using HR_System.BLL.Repositories;
+using HR_System.DAL.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
+
 namespace HR_System.PL
 {
     public class Program
@@ -8,7 +13,10 @@ namespace HR_System.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+            builder.Services.AddDbContext<HrDbContext>(options => {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+            });   
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
